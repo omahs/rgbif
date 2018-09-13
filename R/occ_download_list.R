@@ -25,6 +25,7 @@ occ_download_list <- function(user = NULL, pwd = NULL, limit = 20, start = 0,
   stopifnot(!is.null(user), !is.null(pwd))
   url <- sprintf('%s/occurrence/download/user/%s', gbif_base(), user)
   args <- rgbif_compact(list(limit = limit, offset = start))
+  httpstore$wait()
   cli <- crul::HttpClient$new(
     url = url, opts = c(
       curlopts, httpauth = 1, userpwd = paste0(user, ":", pwd)
@@ -34,6 +35,7 @@ occ_download_list <- function(user = NULL, pwd = NULL, limit = 20, start = 0,
     )
   )
   res <- cli$get(query = args)
+  httpstore$put(now_stamp())
   tt <- res$parse("UTF-8")
   out <- jsonlite::fromJSON(tt, flatten = TRUE)
   out$results$size <- getsize(out$results$size)

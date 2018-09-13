@@ -35,11 +35,13 @@ occ_download_cancel <- function(key, user = NULL, pwd = NULL,
   user <- check_user(user)
   pwd <- check_pwd(pwd)
   url <- sprintf('%s/occurrence/download/request/%s', gbif_base(), key)
+  httpstore$wait()
   cli <- crul::HttpClient$new(url = url, opts = c(
     curlopts, httpauth = 1, userpwd = paste0(user, ":", pwd)),
     headers = rgbif_ual
   )
   res <- cli$delete(body = FALSE)
+  httpstore$put(now_stamp())
   res$raise_for_status()
   if (res$status_code == 204) message("Download sucessfully deleted") else res
 }

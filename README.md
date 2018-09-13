@@ -48,6 +48,14 @@ the search and download APIs
     * Note: we used to have a function `gbifmap()` that used `ggplot2` to plot data from the
     occurrence API, but it's been removed - see package [mapr][]
 
+## Requests per time period (aka "throttling")
+
+So as not to put too much burden on GBIF's services, we limit your requests
+across all functions to 60 requests per minute, or 1 request per second. This 
+is hard coded, so there is no way around it. We understand this may be 
+frustrating to some, but it does help make GBIF morer reliable for all users 
+with this throttling.
+
 ## Installation
 
 

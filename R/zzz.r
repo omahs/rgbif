@@ -331,9 +331,13 @@ rgbif_ua <- function() {
 
 rgbif_ual <- list(`User-Agent` = rgbif_ua(), `X-USER-AGENT` = rgbif_ua())
 
+httpstore <- HttpStore$new()
+
 gbif_GET <- function(url, args, parse=FALSE, curlopts = list(), mssg = NULL) {
+  httpstore$wait()
   cli <- crul::HttpClient$new(url = url, headers = rgbif_ual, opts = curlopts)
   temp <- cli$get(query = args)
+  httpstore$put(now_stamp())
   if (temp$status_code == 204)
     stop("Status: 204 - not found ", mssg, call. = FALSE)
   if (temp$status_code > 200) {
@@ -379,8 +383,10 @@ gbif_GET <- function(url, args, parse=FALSE, curlopts = list(), mssg = NULL) {
 }
 
 gbif_GET_content <- function(url, args, curlopts = list()) {
+  httpstore$wait()
   cli <- crul::HttpClient$new(url = url, headers = rgbif_ual, opts = curlopts)
   temp <- cli$get(query = args)
+  httpstore$put(now_stamp())
   if (temp$status_code > 200) stop(temp$parse("UTF-8"), call. = FALSE)
   stopifnot(temp$response_headers$`content-type` == 'application/json')
   temp$parse("UTF-8")

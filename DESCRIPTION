@@ -40,7 +40,9 @@ Imports:
     geoaxe,
     tibble,
     wicket (>= 0.2.0),
-    lazyeval
+    lazyeval,
+    R6,
+    lubridate
 Suggests:
     testthat,
     knitr,
@@ -48,7 +50,7 @@ Suggests:
     rgeos,
     png,
     raster
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 X-schema.org-applicationCategory: Biodiversity
 X-schema.org-keywords: GBIF, specimens, API, web-services, occurrences, species, taxonomy
 X-schema.org-isPartOf: https://ropensci.org

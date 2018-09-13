@@ -28,11 +28,13 @@ occ_download_get <- function(key, path=".", overwrite=FALSE, curlopts=list()) {
   message(sprintf('Download file size: %s MB', size))
   url <- sprintf('%s/occurrence/download/request/%s', gbif_base(), key)
   path <- sprintf("%s/%s.zip", path, key)
+  httpstore$wait()
   cli <- crul::HttpClient$new(url = url, headers = rgbif_ual, opts = curlopts)
   if (file.exists(path)) {
     if (!overwrite) stop("file exists & overwrite is FALSE")
   }
   res <- cli$get(disk = path)
+  httpstore$put(now_stamp())
   if (res$status_code > 203) stop(res$parse("UTF-8"))
   stopifnot(res$response_headers$`content-type` ==
               "application/octet-stream; qs=0.5")

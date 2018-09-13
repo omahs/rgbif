@@ -179,7 +179,9 @@ occ_download <- function(..., body = NULL, type = "and", user = NULL,
 
   z <- occ_download_prep(..., body = body, type = type, user = user, 
     pwd = pwd, email = email, curlopts = curlopts)
+  httpstore$wait()
   out <- rg_POST(z$url, req = z$req, user = z$user, pwd = z$pwd, curlopts)
+  httpstore$put(now_stamp())
   structure(out, class = "occ_download", user = user, email = email)
 }
 

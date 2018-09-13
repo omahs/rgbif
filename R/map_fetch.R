@@ -220,8 +220,10 @@ map_fetch <- function(
   }
 
   path <- file.path('v2/map/occurrence', source, z, x, paste0(y, format))
+  httpstore$wait()
   cli <- crul::HttpClient$new(url = 'https://api.gbif.org', opts = list(...))
   res <- cli$get(path, query = query)
+  httpstore$put(now_stamp())
   if (!grepl("mvt", format)) {
     map_png <- png::readPNG(res$content)
     map <- raster::raster(map_png[,,2])

@@ -33,8 +33,10 @@ occ_spellcheck <- function(search, curlopts = list()) {
 }
 
 gbif_GET2 <- function(url, args, parse=FALSE, curlopts = list()) {
+  httpstore$wait()
   cli <- crul::HttpClient$new(url = url, headers = rgbif_ual, opts = curlopts)
   temp <- cli$get(query = args)
+  httpstore$put(now_stamp())
   temp$raise_for_status()
   if (temp$status_code == 204) stop("Status: 204 - not found", call. = FALSE)
   if (temp$status_code > 200) {

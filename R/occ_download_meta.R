@@ -15,8 +15,10 @@
 occ_download_meta <- function(key, curlopts = list()) {
   stopifnot(!is.null(key))
   url <- sprintf('%s/occurrence/download/%s', gbif_base(), key)
+  httpstore$wait()
   cli <- crul::HttpClient$new(url = url, headers = rgbif_ual, opts = curlopts)
   tmp <- cli$get()
+  httpstore$put(now_stamp())
   if (tmp$status_code > 203) stop(tmp$parse("UTF-8"), call. = FALSE)
   stopifnot(tmp$response_headers$`content-type` == 'application/json')
   tt <- tmp$parse("UTF-8")

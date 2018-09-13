@@ -28,6 +28,14 @@
 #' - maps <http://www.gbif.org/developer/maps> - Maps - these APIs
 #' are not implemented in \pkg{rgbif}, and are meant more for intergration
 #' with web based maps.
+#' 
+#' @section Requests per time period (aka "throttling"):
+#' 
+#' So as not to put too much burden on GBIF's services, we limit your requests
+#' across all functions to 60 requests per minute, or 1 request per second. This 
+#' is hard coded, so there is no way around it. We understand this may be 
+#' frustrating to some, but it does help make GBIF morer reliable for all users 
+#' with this throttling.
 #'
 #' @note See [many-values] for discussion of how functions vary in how
 #' they accept values (single vs. many for the same HTTP request vs. many
@@ -43,6 +51,8 @@
 #' list_sets get_records
 #' @importFrom geoaxe chop to_wkt
 #' @importFrom lazyeval lazy_dots lazy_eval
+#' @importFrom R6 R6Class
+#' @importFrom lubridate dmy_hms ymd_hms now
 #' @name rgbif-package
 #' @aliases rgbif
 #' @docType package

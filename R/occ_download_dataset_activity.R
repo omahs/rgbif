@@ -15,8 +15,10 @@
 #' }
 occ_download_dataset_activity <- function(dataset, curlopts = list()) {
   url <- sprintf('%s/occurrence/download/dataset/%s', gbif_base(), dataset)
+  httpstore$wait()
   cli <- crul::HttpClient$new(url = url, headers = rgbif_ual, opts = curlopts)
   tmp <- cli$get()
+  httpstore$put(now_stamp())
   if (tmp$status_code > 203) {
   	if (length(tmp$content) == 0) tmp$raise_for_status()
   	stop(tmp$parse("UTF-8"), call. = FALSE)
