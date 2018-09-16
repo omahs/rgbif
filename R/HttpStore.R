@@ -1,5 +1,6 @@
 #' HttpStore
 #' 
+#' @export
 #' @keywords internal
 #' @section methods:
 #' 
