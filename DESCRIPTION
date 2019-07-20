@@ -50,6 +50,7 @@ Suggests:
     raster,
     vcr
 RoxygenNote: 6.1.1
+Remotes: ropensci/webmockr@matchers-fix, ropensci/vcr@fix-request-body
 X-schema.org-applicationCategory: Biodiversity
 X-schema.org-keywords: GBIF, specimens, API, web-services, occurrences, species, taxonomy
 X-schema.org-isPartOf: https://ropensci.org
