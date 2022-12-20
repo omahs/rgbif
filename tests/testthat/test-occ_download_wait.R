@@ -1,6 +1,6 @@
 test_that("occ_download_wait: real request works", {
   skip_on_cran()
-  # skip_on_ci()
+  skip_on_ci()
 
   vcr::use_cassette("occ_download_wait_request", {
     downl_req <- occ_download(pred("taxonKey", 9206251),
@@ -38,6 +38,32 @@ test_that("occ_download_wait: character key works", {
 })
 
 
+test_that("occ_download_wait: http2 error test", {
+  skip_on_cran()
+  
+  vcr::use_cassette("occ_download_wait_http2", {
+    dl2 <- occ_download(
+      pred_gt('elevation', 5000),
+      pred_in('basisOfRecord', c('HUMAN_OBSERVATION', 'OBSERVATION', 'MACHINE_OBSERVATION')),
+      pred('country', 'US'),
+      pred('hasCoordinate', TRUE),
+      pred('hasGeospatialIssue', FALSE),
+      pred_gte('year', 1999),
+      pred_lte('year', 2011),
+      pred_gte('month', 3),
+      pred_lte('month', 8)
+    )
+    
+    hh <- occ_download_wait(dl2)
+  })
+  
+  # Test if works with occ_download object
+  expect_is(hh, "occ_download_meta")
+  expect_is(unclass(hh), "list")
+  expect_match(hh$key, "[0-9]+-[0-9]+")
+  expect_equal(hh$status, "SUCCEEDED")
+  
+})
 
 
 
