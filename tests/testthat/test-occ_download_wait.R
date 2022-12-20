@@ -39,9 +39,9 @@ test_that("occ_download_wait: character key works", {
 
 
 test_that("occ_download_wait: http2 error test", {
-  skip_on_cran()
+  # skip_on_cran()
   
-  vcr::use_cassette("occ_download_wait_http2", {
+  # vcr::use_cassette("occ_download_wait_http2", {
     dl2 <- occ_download(
       pred_gt('elevation', 5000),
       pred_in('basisOfRecord', c('HUMAN_OBSERVATION', 'OBSERVATION', 'MACHINE_OBSERVATION')),
@@ -55,9 +55,11 @@ test_that("occ_download_wait: http2 error test", {
     )
     
     hh <- occ_download_wait(dl2)
-  })
+  #})
   
   # Test if works with occ_download object
+  print(dl2)
+  print(hh)
   expect_is(hh, "occ_download_meta")
   expect_is(unclass(hh), "list")
   expect_match(hh$key, "[0-9]+-[0-9]+")
